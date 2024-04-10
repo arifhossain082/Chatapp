@@ -3,6 +3,7 @@
 .body{
     margin: 0px !important;
     padding: 0px !important;
+    height: 100%;
 }
 
 .sidebar{
@@ -81,7 +82,17 @@
  right: 10px;
  cursor: pointer;
 }
-
+.setting{
+    /* width: 200px; */
+    border: 1px solid #353535;
+    position: absolute;
+    top: 50px;
+    background: #ffffffbe;
+    padding: 20px 10px;
+    z-index: 10;
+    right: 10px;
+    text-align: end;
+}
 .button_section{
     display: flex;
     gap: 50px;
@@ -96,11 +107,58 @@
     padding: 5px 10px;
     cursor: pointer;
 }
+.create-new-chat{
+    position: absolute;
+    width: 79%;
+    background: #ffffff;
+    padding: 20px;
+    top: 60px;
+}
+.chat-info-form form label{
+    font-family: 'Inter';
+    font-size: 15px;
+    font-weight: bold;
+}
+.chat-info-form form input{
+    padding: 5px;
+    width: 94%;
+    border: none;
+    border-bottom: 1px solid #000000;
+    margin-top: 5px;
+}
+/* .all-users .list div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+} */
+.all-users .list table img{
+    width: 25px;
+    height: 25px;
+}
+.all-users .list table h4{
+    font-family: 'Inter';
+    font-weight: normal;
+    font-size: 13px;
+    padding: 0px;
+    margin: 0px;
+}
+.all-users .list table .checkbox{
+    width: 15px;
+}
 
 /* Chat Lists section */
 .chatList{
     padding: 0px 10px;
     padding-top: 20px;
+    height: 35%;
+    overflow: hidden;
+}
+.onlineUsers{
+    height: 35%;
+}
+.chat-items{
+    overflow: scroll;
+    height: 90%;
 }
 .chatList-title p{
     font-family: 'inter';
@@ -108,6 +166,12 @@
     font-weight: 600;
     color: #000000;
     
+}
+.online{
+    width: 7px;
+    height: 7px;
+    background: #26b105;
+    border-radius: 20px;
 }
 .chatList-title{
     border-bottom: 1px solid #000000;
@@ -173,6 +237,11 @@
 }
 .chat-body{
     height: 70vh;
+    overflow: scroll;
+}
+.chats:hover {
+    background: #ffffffda;
+    padding-left: 10px;
 }
 
 /*Input*/
@@ -191,7 +260,7 @@
     display: flex;
     align-items: center;
 }
-.form #text{
+.form .text{
     width: 100%;
     padding: 15px 10px;
     margin: 0px auto;
@@ -281,7 +350,46 @@
     flex-direction: column;
     gap: 20px;
 }
+.todo{
+    position: absolute;
+    width: 300px;
+    height: 100%;
+    background: #ffffff;
+    border: 1px solid #a3a3a3;
+    right: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+.add-todo-button{
+    background: #26b105;
+    padding: 5px 10px;
+    color: #ffffff;
+    font-family: 'Inter';
+    font-weight: 500;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.todo-insert-field{
+    width: 95%;
+    font-family: 'inter';
+    font-size: 14px;
+    padding: 10px;
+    margin-top: 10px;
 
+}
+.button-part{
+    position: relative;
+}
+.hide{
+    position: absolute;
+    right: 10px;
+    top: 0px;
+}
+.show-all-todo .list li div{
+    display: flex;
+}
 /*Login page*/
 
 .login{
@@ -327,4 +435,17 @@
     margin-top: 10px;
     border-radius: 10px;
     outline: none;
+}
+
+.error{
+    font-family: 'inter';
+    color: red;
+    font-size: 18px;
+    font-weight: 500;
+}
+.register_link{
+    text-align: right;
+    color:#00B212;
+    font-family: 'inter';
+    cursor: pointer;
 }

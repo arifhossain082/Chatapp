@@ -1,54 +1,36 @@
 import Profile from "./sidebar-components/Profile";
-import Profile_img from '../../assets/img/IMG_0949.png';
 import Button from "../button/Button";
 import {faPlus, faComment} from '@fortawesome/free-solid-svg-icons';
-import { useState } from "react";
-import team_image from '../../assets/img/team_image.jpg';
-import starting_image from '../../assets/img/starting_image.png';
-import internal_image from '../../assets/img/default-group-5.png'
-import maintenance_image from '../../assets/img/27048061708899847550626b.jpg'
-import support_image from '../../assets/img/3da630917088999941cdb1e2.jpg'
+import { useContext, useState } from "react";
 import ChatList from "./sidebar-components/ChatList";
+import { AuthContext } from "../../context/AuthContext";
+import { ChatContext } from "../../context/ChatContext";
+import CreateNewChat from "./sidebar-components/CreateNewChat";
+
+
 
 
 const Navbar = () => {
-  const default_Chats = [
-    {
-      name: 'Start & Finish / When back',
-      image: starting_image,
-    },
-    {
-      name: 'Main Team Chat',
-      image: team_image,
-    },
-    {
-      name: 'Internal Software (Chat)',
-      image: internal_image,
-    },
-    {
-      name: '3. WP Maintenance (Silvercrow, JHA, TR)',
-      image: maintenance_image
-    },
-    {
-      name: '5. Support (Ethical Team, E4A etc)',
-      image: support_image
-    }
-  ]
-    
-  const [chats, setChats] = useState([...default_Chats])
-  //For create new Chat
-  const handleCreatClick = () => {  }
+  const { user, logoutUser } = useContext(AuthContext)
+  const { users, chats, newChat, updateChatDetails, insertNewChat, onlineUsers, insertSingleChat } = useContext(ChatContext)
+  const [isVisibleChat, setIsVisibleChat] = useState(false)
+
+ 
+
 
   //For Help using CHATGPT
   const handleHelpClick = () => {  }
 
   // For open chat of the chat lists
-  const handleOpenChat = () => {}
+  const handleCreatClick = () => {
+    setIsVisibleChat(!isVisibleChat)
+  }
   const customCssForButton = {
     position:'absolute', 
     right: '10px'
   }
-    return ( 
+    return (
+      
         <div className="sidebar">
           <div className="sidebar-top">
               <div className="company-name">
@@ -58,10 +40,13 @@ const Navbar = () => {
                 <a href="#">Invite</a>
               </div>
           </div>
-          <Profile image={Profile_img} userName={'Arif Hossain'} status={'Busy'}/>
+          <Profile image={user.image} userName={user.name} status={'Busy'} handleLogOut={logoutUser}/>
           <div className="button_section">
             <Button text={'New Chat'} handleClick={handleCreatClick} icon={faPlus}/>
             <Button text={'Help'} handleClick={handleHelpClick} icon={faComment} style={customCssForButton}/>
+            {isVisibleChat && (
+              <CreateNewChat newChat={newChat} updateChatDetails={updateChatDetails} handleSubmit={insertNewChat}/>
+            )}
           </div>
 
           <div className="chatList">
@@ -69,10 +54,29 @@ const Navbar = () => {
               <p>Open Chats</p>
             </div>
             <div className="chat-items">
-              {chats.map((chat,index) => (
-                <ChatList key={index} name={chat.name} image={chat.image} handleClick={handleOpenChat}/>
+              {chats.map((chat) => (
+                <ChatList key={chat._id} name={chat.name ? chat.name : chat.userInfo?.name} image={chat.image ? chat.image : chat.userInfo.image} chat={chat} />
                 
               ))}
+            </div>
+          </div>
+          <div className="onlineUsers">
+          <div className="chatList-title">
+              <p>Users</p>
+            </div>
+            <div className="chat-items">
+              {users.map((u) => (
+                  <div className="chats" key={u?._id} onClick={()=>insertSingleChat(u?._id, user?._id)}>
+                  <div className="image_of_chats">
+                  <img src={u?.image} alt="" />
+                  </div>
+                  <div className="name_of_chats">
+                      <p>{u?.name}</p>
+                  </div>
+                  <div className={onlineUsers?.some((ou) => ou.userId === u?._id) ? 'online' : ''} ></div>
+                  </div>
+              ))}
+                
             </div>
           </div>
         </div>

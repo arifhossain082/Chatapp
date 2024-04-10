@@ -1,6 +1,6 @@
-const Input_Field = ({value, handleChange, type, name, placeholder}) => {
+const Input_Field = ({handleChange, type, name, value, placeholder}) => {
     return ( 
-               <input type={type} name={name} placeholder={placeholder} id="text" value={value} onChange={handleChange}/>
+               <input className="text" type={type} name={name} value={value} placeholder={placeholder} onChange={handleChange}/>
      );
 }
  

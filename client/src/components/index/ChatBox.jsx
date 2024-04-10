@@ -1,51 +1,58 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faUser, faPlus} from '@fortawesome/free-solid-svg-icons'
 import Message from "./Message";
-import image from '../../assets/img/favicon.png'
 import Input from "./Input";
+import { ChatContext } from "../../context/ChatContext";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import AddMembers from "./AddMembers";
+
 const ChatBox = () => {
-    const userMessage = [
-        {
-            name: 'Arif Hossain',
-            image: image,
-            text: 'I am starting work now',
-            time: '10:00 AM'
-        },
-        {
-            name: 'Malik Younus',
-            image: image,
-            text: 'I am starting work now',
-            time: '10:00 AM'
-        },
-        {
-            name: 'Masum Ahmed',
-            image: image,
-            text: 'I am starting work now',
-            time: '10:00 AM'
-        },
-    ]
+    
+    const { selectedChat, isLoadingChatUser, messages, saveMessage, isMessageLoading} = useContext(ChatContext)
+    const {user} = useContext(AuthContext)
+    const [textMessage, setTextMessage] = useState('')
+    const [isVisibleAddNewMembers, setIsVisibleAddNewMembers] =useState(false)
 
-
+    const visibleClick = ()=>{
+        setIsVisibleAddNewMembers(!isVisibleAddNewMembers)
+    }
+   
     return ( 
         <div className="chatBox">
            <div className="chat_header">
             <div className="chat_name">
-                <h1>Start & Finish / When back</h1>
+            { selectedChat?.name ? (
+                <h1>{isLoadingChatUser ? 'Loading...' : selectedChat?.name}</h1>
+            ) : (
+                <h1>{isLoadingChatUser ? 'Loading...' : selectedChat?.userInfo.name}</h1>
+            )
+            }
+                
             </div>
             <div className="chat_info">
-                <FontAwesomeIcon icon={faUser} /> 4
-                <button><FontAwesomeIcon icon={faPlus}/> Add</button>
+                <FontAwesomeIcon icon={faUser} /> {selectedChat?.members?.length}
+                <button onClick={visibleClick}><FontAwesomeIcon icon={faPlus}/> Add</button>
+                {isVisibleAddNewMembers && (
+                    <AddMembers chatId={selectedChat?._id}/>
+                )}
                 <span>Share project files, manage tasks and get updates</span>
             </div>
            </div>
            <div className="chat-body">
-                {userMessage.map((message, index) => (
-                    <Message key={index} userMessage={message}/>
+            {isMessageLoading && (
+                <p>Loading...</p>
+            )}
+                {messages?.map((message) => (
+                    <Message key={message?._id} userMessage={message} user={user}/>
                 ))}
             </div>
-            <Input />
+            <Input textMessage={textMessage} setTextMessage={setTextMessage} saveMessage={saveMessage} />
+           
+           
         </div>
-     );
+        
+     )
 }
  
 export default ChatBox;
